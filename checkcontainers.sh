@@ -6,7 +6,7 @@ XARXA='/etc/sysconfig/network-scripts/'
 TOTAL=$(ls /etc/sysconfig/network-scripts/ifcfg-eth0:* | wc -l)
 MAXDOCKER=20
 RUTA=$(dirname "$0");
-BASEDEDADES= "$RUTA/contenidors";
+BASEDEDADES="$RUTA/contenidors";
 
 function checkrequisites {
   if [  -f "$BASEDEDADES" ]; then
