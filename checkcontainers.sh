@@ -1,10 +1,21 @@
 #!/bin/bash
-# version b0.1
+# version b0.2
 
 #config
 XARXA='/etc/sysconfig/network-scripts/'
 TOTAL=$(ls /etc/sysconfig/network-scripts/ifcfg-eth0:* | wc -l)
 MAXDOCKER=20
+RUTA=$(dirname "$0");
+BASEDEDADES= "$RUTA/contenidors";
+
+function checkrequisites {
+  if [  -f "$BASEDEDADES" ]; then
+          echo "file found";
+  else
+          echo "File contenidors not found, ";
+          exit 1;
+  fi
+}
 
 function NetejaInterficies {
         for x in $(ls ${XARXA}ifcfg-eth0:*);
@@ -23,7 +34,7 @@ function ComproboContainers {
                 echo "this node have more containers than ${MAXDOCKER}"
                 for x in $(docker ps | awk '{print $14}' |grep -v ^$);
                 do
-                        if grep $x contenidors; then
+                        if grep $x $BASEDEDADES; then
                                 echo "$x allowed"
                         else
                                 echo "$x Not found, stoping"
@@ -36,22 +47,22 @@ function ComproboContainers {
                 for x in $(docker ps | awk '{print $14}' |grep -v ^$);
                 do
                         echo "checking if $x is into database"
-                        if grep $x contenidors; then
+                        if grep $x $BASEDEDADES; then
                                 echo "$x found into database"
                         else
                                 echo "$x Not found, i proceed to add"
-                                echo $x >> ./contenidors
+                                echo $x >> $BASEDEDADES
                         fi
                 done
 
                 echo "--- Reviewing and cleaning database"
-                for x in $(cat contenidors);
+                for x in $(cat $BASEDEDADES);
                 do
                         if docker ps | awk '{print $14}' |grep -v ^$ | grep $x; then
                                 echo "keep $x on database"
                         else
                                 echo "$x not present cleaning"
-                                sed -i "/${x}/d" ./contenidors
+                                sed -i "/${x}/d" $BASEDEDADES
                         fi
                 done
         fi
