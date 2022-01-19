@@ -71,6 +71,8 @@ function ComproboContainers {
 
 
 #Runing script
+        echo "checking requirements"
+        checkrequisites
         echo "Starting checks $(date +"%Y%m%d-%H%M%S")"
         #Container tasks
         echo "checking if this host have more containers that allowed"
