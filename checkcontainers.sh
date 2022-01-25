@@ -1,5 +1,5 @@
 #!/bin/bash
-# version b0.2
+# version b0.3
 
 #config
 XARXA='/etc/sysconfig/network-scripts/'
@@ -30,7 +30,7 @@ function NetejaInterficies {
 }
 
 function ComproboContainers {
-        if [ $(docker ps | wc -l) -ge ${MAXDOCKER} ]; then
+        if [ $(docker ps --format '{{.Names}}' | wc -l) -ge ${MAXDOCKER} ]; then
                 echo "this node have more containers than ${MAXDOCKER}"
                 for x in $(docker ps | awk '{print $14}' |grep -v ^$);
                 do
