@@ -32,7 +32,7 @@ function NetejaInterficies {
 function ComproboContainers {
         if [ $(docker ps --format '{{.Names}}' | wc -l) -ge ${MAXDOCKER} ]; then
                 echo "this node have more containers than ${MAXDOCKER}"
-                for x in $(docker ps | awk '{print $14}' |grep -v ^$);
+                for x in $(docker ps --format '{{.Names}}');
                 do
                         if grep $x $BASEDEDADES; then
                                 echo "$x allowed"
@@ -44,7 +44,7 @@ function ComproboContainers {
         else
                 echo "this node can allocate more containers"
                 echo " --- checking running containers"
-                for x in $(docker ps | awk '{print $14}' |grep -v ^$);
+                for x in $(docker ps --format '{{.Names}}');
                 do
                         echo "checking if $x is into database"
                         if grep $x $BASEDEDADES; then
@@ -58,7 +58,7 @@ function ComproboContainers {
                 echo "--- Reviewing and cleaning database"
                 for x in $(cat $BASEDEDADES);
                 do
-                        if docker ps | awk '{print $14}' |grep -v ^$ | grep $x; then
+                        if docker ps --format '{{.Names}}' | grep $x; then
                                 echo "keep $x on database"
                         else
                                 echo "$x not present cleaning"
