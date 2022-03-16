@@ -1,5 +1,5 @@
 #!/bin/bash
-# version b0.3
+# version b0.4
 
 #config
 XARXA='/etc/sysconfig/network-scripts/'
