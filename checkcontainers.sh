@@ -1,10 +1,12 @@
 #!/bin/bash
-# version b0.3
+# version b0.4
 
 #config
 XARXA='/etc/sysconfig/network-scripts/'
 TOTAL=$(ls /etc/sysconfig/network-scripts/ifcfg-eth0:* | wc -l)
 MAXDOCKER=20
+# Adding cardvisor to total count
+MAXDOCKER=(($MAXDOCKER+1))
 RUTA=$(dirname "$0");
 BASEDEDADES="$RUTA/contenidors";
 
