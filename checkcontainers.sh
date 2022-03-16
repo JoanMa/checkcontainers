@@ -32,7 +32,7 @@ function NetejaInterficies {
 }
 
 function ComproboContainers {
-        if [ $(docker ps --format '{{.Names}}' | wc -l) -ge ${MAXDOCKER} ]; then
+        if [ $(docker ps --format '{{.Names}}' | wc -l) -gt ${MAXDOCKER} ]; then
                 echo "this node have more containers than ${MAXDOCKER}"
                 for x in $(docker ps --format '{{.Names}}');
                 do
